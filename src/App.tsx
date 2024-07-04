@@ -27,6 +27,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 
 const BoldTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold', // 볼드체로 변경
+  fontSize: '1.5rem' // 폰트 사이즈 조정
 }));
 
 const AddressText = styled(Typography)(({ theme }) => ({
@@ -82,7 +83,7 @@ const App: React.FC = () => {
   const renderRegion = (region: string) => {
     const shortRegion = region.length > 10 ? `${region.substring(0, 10)}...` : region;
     return (
-      <Tooltip title={region}>
+      <Tooltip title={region} enterDelay={0} leaveDelay={200}>
         <AddressText>{shortRegion}</AddressText>
       </Tooltip>
     );
@@ -101,13 +102,13 @@ const App: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
-            도시가스 시공사 정보
+            Construction Companies
           </Typography>
         </Toolbar>
       </AppBar>
       <StyledContainer>
         <StyledTextField
-          label="회사명 또는 행정구역을 검색하세요."
+          label="Search"
           variant="outlined"
           fullWidth
           value={search}
