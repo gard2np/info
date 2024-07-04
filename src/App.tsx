@@ -136,7 +136,7 @@ const App: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
-            도시가스 시공업체 정보
+            도시가스 시공업체 List
           </Typography>
         </Toolbar>
       </AppBar>
