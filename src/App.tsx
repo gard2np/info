@@ -51,9 +51,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const baseUrl = process.env.NODE_ENV === 'development' 
-        ? '' 
-        : '/cci'; // GitHub Pages 배포 URL 포함
+      const baseUrl = window.location.hostname === 'localhost'
+        ? ''
+        : 'https://gard2np.github.io/info'; // GitHub Pages 배포 URL 포함
       try {
         const response = await axios.get(`${baseUrl}/data/companies.json`);
         setData(response.data);
@@ -101,13 +101,13 @@ const App: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
-            Construction Companies
+            도시가스 시공사 정보
           </Typography>
         </Toolbar>
       </AppBar>
       <StyledContainer>
         <StyledTextField
-          label="Search"
+          label="회사명 또는 행정구역을 검색하세요."
           variant="outlined"
           fullWidth
           value={search}
