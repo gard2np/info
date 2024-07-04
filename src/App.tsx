@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { AppBar, Toolbar, Typography, Container, TextField, Card, CardContent, Grid, IconButton, styled, Tooltip, Link } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, TextField, Card, CardContent, Grid, IconButton, styled, Tooltip, Link, Accordion, AccordionSummary, AccordionDetails, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 
@@ -36,6 +37,11 @@ const AddressText = styled(Typography)(({ theme }) => ({
   textDecoration: 'none' // 언더바 제거
 }));
 
+const ShortRegionText = styled('span')(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontSize: '0.75rem' // 작은 폰트 사이즈
+}));
+
 interface Company {
   name: string;
   contact: string;
@@ -49,6 +55,8 @@ const App: React.FC = () => {
   const [search, setSearch] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [dialogContent, setDialogContent] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,12 +88,22 @@ const App: React.FC = () => {
     [search, data]
   );
 
+  const handleClickOpen = (region: string) => {
+    setDialogContent(region);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const renderRegion = (region: string) => {
     const shortRegion = region.length > 10 ? `${region.substring(0, 10)}...` : region;
     return (
-      <Tooltip title={region} enterDelay={0} leaveDelay={200}>
-        <AddressText>{shortRegion}</AddressText>
-      </Tooltip>
+      <AddressText onClick={() => handleClickOpen(region)}>
+        {shortRegion}
+        {region.length > 10 && <ShortRegionText>...</ShortRegionText>}
+      </AddressText>
     );
   };
 
@@ -102,13 +120,27 @@ const App: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
-            Construction Companies
+            도시가스 시공사 정보
           </Typography>
         </Toolbar>
       </AppBar>
       <StyledContainer>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>공지사항</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              시공사 정보는 JB와 관계 없으며, 시공상 문제는 시공사에 문의하세요.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
         <StyledTextField
-          label="Search"
+          label="회사명 또는 행정구역을 검색하세요"
           variant="outlined"
           fullWidth
           value={search}
@@ -137,6 +169,17 @@ const App: React.FC = () => {
             </Grid>
           ))}
         </Grid>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>전체 주소</DialogTitle>
+          <DialogContent>
+            <Typography>{dialogContent}</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              닫기
+            </Button>
+          </DialogActions>
+        </Dialog>
       </StyledContainer>
     </>
   );
