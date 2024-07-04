@@ -151,7 +151,7 @@ const App: React.FC = () => {
           </AccordionSummary>
           <StyledAccordionDetails>
             <ListTypography>
-              1. 가스시설시공업체 List는 참고 자료로서 당사와 무관함을 알려립니다.
+              1. 가스시설시공업체 List는 참고 자료로서 당사와 무관함을 알려드립니다.
             </ListTypography>
             <ListTypography>
               2. 시공업체의 면허 말소 확인은 관할 지자체에 문의하시기 바랍니다.
