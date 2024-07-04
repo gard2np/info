@@ -10,8 +10,18 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   fontFamily: 'Noto Sans KR, sans-serif',
 }));
 
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  backgroundColor: '#e3f2fd', // 연한 파란색
+  marginBottom: theme.spacing(2), // 아코디언 박스와 서치박스 사이 간격 추가
+}));
+
+const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
+  display: 'block', // 내용 전체를 블록으로 설정하여 줄 바꿈 시 정렬 문제 해결
+}));
+
 const StyledTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(2)
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(2), // 서치박스와 아코디언 박스 사이 간격 추가
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -40,6 +50,12 @@ const AddressText = styled(Typography)(({ theme }) => ({
 const ShortRegionText = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
   fontSize: '0.75rem' // 작은 폰트 사이즈
+}));
+
+const ListTypography = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  textIndent: '-1em',
+  paddingLeft: '1em',
 }));
 
 interface Company {
@@ -98,11 +114,11 @@ const App: React.FC = () => {
   };
 
   const renderRegion = (region: string) => {
-    const shortRegion = region.length > 10 ? `${region.substring(0, 10)}...` : region;
+    const shortRegion = region.length > 7 ? `${region.substring(0, 7)}...` : region;
     return (
       <AddressText onClick={() => handleClickOpen(region)}>
         {shortRegion}
-        {region.length > 10 && <ShortRegionText>...</ShortRegionText>}
+        {region.length > 7 && <ShortRegionText>(전체주소 보기)</ShortRegionText>}
       </AddressText>
     );
   };
@@ -120,25 +136,37 @@ const App: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ fontFamily: 'Noto Sans KR, sans-serif' }}>
-            도시가스 시공사 정보
+            도시가스 시공업체 정보
           </Typography>
         </Toolbar>
       </AppBar>
       <StyledContainer>
-        <Accordion>
+        <StyledAccordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>공지사항</Typography>
+            <Typography>공지사항 및 사용법</Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              시공사 정보는 JB와 관계 없으며, 시공상 문제는 시공사에 문의하세요.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
+          <StyledAccordionDetails>
+            <ListTypography>
+              1. 가스시설시공업체 List는 참고 자료로서 당사와 무관함을 알려립니다.
+            </ListTypography>
+            <ListTypography>
+              2. 시공업체의 면허 말소 확인은 관할 지자체에 문의하시기 바랍니다.
+            </ListTypography>
+            <ListTypography>
+              3. 노출 순서는 주소 기준 "가나다..." 순입니다.
+            </ListTypography>
+            <ListTypography>
+              4. 전화번호 클릭 시 전화 연결로 이동합니다.
+            </ListTypography>
+            <ListTypography>
+              5. 주소 클릭 시 전체 주소가 나타납니다.
+            </ListTypography>
+          </StyledAccordionDetails>
+        </StyledAccordion>
         <StyledTextField
           label="회사명 또는 행정구역을 검색하세요"
           variant="outlined"
