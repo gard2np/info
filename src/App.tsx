@@ -121,11 +121,11 @@ const App: React.FC = () => {
   };
 
   const renderRegion = (region: string) => {
-    const shortRegion = region.length > 7 ? `${region.substring(0, 7)}...` : region;
+    const shortRegion = region.length > 15 ? `${region.substring(0, 15)}...` : region;
     return (
       <AddressText onClick={() => handleClickOpen(region)}>
         {shortRegion}
-        {region.length > 7 && <ShortRegionText>...</ShortRegionText>}
+        {region.length > 15 && <ShortRegionText>(전체주소 보기)</ShortRegionText>}
       </AddressText>
     );
   };
