@@ -12,7 +12,9 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   backgroundColor: '#e3f2fd', // 연한 파란색
-  marginBottom: theme.spacing(2), // 아코디언 박스와 서치박스 사이 간격 추가
+  marginBottom: theme.spacing(1), // 아코디언 박스와 서치박스 사이 간격 추가
+  marginTop: theme.spacing(2), 
+  position: 'relative'
 }));
 
 const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
@@ -39,6 +41,11 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 const BoldTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold', // 볼드체로 변경
   fontSize: '1.5rem' // 폰트 사이즈 조정
+}));
+
+const HighlightedText = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  color: theme.palette.error.main
 }));
 
 const AddressText = styled(Typography)(({ theme }) => ({
@@ -118,7 +125,7 @@ const App: React.FC = () => {
     return (
       <AddressText onClick={() => handleClickOpen(region)}>
         {shortRegion}
-        {region.length > 7 && <ShortRegionText>(전체주소 보기)</ShortRegionText>}
+        {region.length > 7 && <ShortRegionText>...</ShortRegionText>}
       </AddressText>
     );
   };
@@ -141,29 +148,31 @@ const App: React.FC = () => {
         </Toolbar>
       </AppBar>
       <StyledContainer>
+          <ListTypography>
+            <HighlightedText>
+              ※ 제공되는 List는 참고 자료로서 당사와 무관함을 알려드립니다.
+            </HighlightedText>
+          </ListTypography>
         <StyledAccordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
+            aria-controls="absolute"
             id="panel1a-header"
-          >
+            >
             <Typography>공지사항 및 사용법</Typography>
           </AccordionSummary>
           <StyledAccordionDetails>
             <ListTypography>
-              1. 가스시설시공업체 List는 참고 자료로서 당사와 무관함을 알려드립니다.
+              1. 시공업체의 면허 말소 확인은 관할 지자체에 문의하시기 바랍니다.
             </ListTypography>
             <ListTypography>
-              2. 시공업체의 면허 말소 확인은 관할 지자체에 문의하시기 바랍니다.
+              2. 시공사 노출 순서는 주소 기준 "가나다..." 순입니다.
             </ListTypography>
             <ListTypography>
-              3. 노출 순서는 주소 기준 "가나다..." 순입니다.
+              3. 전화번호 클릭 시 전화 연결로 이동합니다.
             </ListTypography>
             <ListTypography>
-              4. 전화번호 클릭 시 전화 연결로 이동합니다.
-            </ListTypography>
-            <ListTypography>
-              5. 주소 클릭 시 전체 주소가 나타납니다.
+              4. 주소 클릭 시 전체 주소가 나타납니다.
             </ListTypography>
           </StyledAccordionDetails>
         </StyledAccordion>
